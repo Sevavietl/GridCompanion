@@ -95,12 +95,56 @@ class TextFilterTest extends TestCase
         );
     }
 
-    public function testGetCondition()
+    public function testGetConditionContains()
     {
         $textFilter = new TextFilter($this->columnFilter, $this->hash);
 
         $condition = $this->invokeMethod($textFilter, 'getCondition');
 
         $this->assertEquals('Alias.column LIKE \'%abc%\'', $condition);
+    }
+
+    public function testGetConditionEquals()
+    {
+        $this->columnFilter[key($this->columnFilter)]['type'] = 2;
+
+        $textFilter = new TextFilter($this->columnFilter, $this->hash);
+
+        $condition = $this->invokeMethod($textFilter, 'getCondition');
+
+        $this->assertEquals('Alias.column = \'abc\'', $condition);
+    }
+
+    public function testGetConditionNotEquals()
+    {
+        $this->columnFilter[key($this->columnFilter)]['type'] = 3;
+
+        $textFilter = new TextFilter($this->columnFilter, $this->hash);
+
+        $condition = $this->invokeMethod($textFilter, 'getCondition');
+
+        $this->assertEquals('Alias.column <> \'abc\'', $condition);
+    }
+
+    public function testGetConditionStartsWith()
+    {
+        $this->columnFilter[key($this->columnFilter)]['type'] = 4;
+
+        $textFilter = new TextFilter($this->columnFilter, $this->hash);
+
+        $condition = $this->invokeMethod($textFilter, 'getCondition');
+
+        $this->assertEquals('Alias.column LIKE \'abc%\'', $condition);
+    }
+
+    public function testGetConditionEndsWith()
+    {
+        $this->columnFilter[key($this->columnFilter)]['type'] = 5;
+
+        $textFilter = new TextFilter($this->columnFilter, $this->hash);
+
+        $condition = $this->invokeMethod($textFilter, 'getCondition');
+
+        $this->assertEquals('Alias.column LIKE \'%abc\'', $condition);
     }
 }

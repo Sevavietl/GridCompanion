@@ -53,7 +53,7 @@ class NumberFilterTest extends TestCase
         $this->setAttribute(
             $this->numberFilter,
             'type',
-            5
+            10
         );
 
         $this->invokeMethod($this->numberFilter, 'validateType');
@@ -108,12 +108,67 @@ class NumberFilterTest extends TestCase
         );
     }
 
-    public function testGetCondition()
+    public function testGetConditionEquals()
     {
         $numberFilter = new NumberFilter($this->columnFilter, $this->hash);
 
         $condition = $this->invokeMethod($numberFilter, 'getCondition');
 
         $this->assertEquals('Alias.column = 1', $condition);
+    }
+
+    public function testGetConditionNotEqual()
+    {
+        $this->columnFilter[key($this->columnFilter)]['type'] = 2;
+
+        $numberFilter = new NumberFilter($this->columnFilter, $this->hash);
+
+        $condition = $this->invokeMethod($numberFilter, 'getCondition');
+
+        $this->assertEquals('Alias.column <> 1', $condition);
+    }
+
+    public function testGetConditionLessThan()
+    {
+        $this->columnFilter[key($this->columnFilter)]['type'] = 3;
+
+        $numberFilter = new NumberFilter($this->columnFilter, $this->hash);
+
+        $condition = $this->invokeMethod($numberFilter, 'getCondition');
+
+        $this->assertEquals('Alias.column < 1', $condition);
+    }
+
+    public function testGetConditionLessThanOrEqual()
+    {
+        $this->columnFilter[key($this->columnFilter)]['type'] = 4;
+
+        $numberFilter = new NumberFilter($this->columnFilter, $this->hash);
+
+        $condition = $this->invokeMethod($numberFilter, 'getCondition');
+
+        $this->assertEquals('Alias.column <= 1', $condition);
+    }
+
+    public function testGetConditionGreaterThan()
+    {
+        $this->columnFilter[key($this->columnFilter)]['type'] = 5;
+
+        $numberFilter = new NumberFilter($this->columnFilter, $this->hash);
+
+        $condition = $this->invokeMethod($numberFilter, 'getCondition');
+
+        $this->assertEquals('Alias.column > 1', $condition);
+    }
+
+    public function testGetConditionGreaterThanOrEqual()
+    {
+        $this->columnFilter[key($this->columnFilter)]['type'] = 6;
+
+        $numberFilter = new NumberFilter($this->columnFilter, $this->hash);
+
+        $condition = $this->invokeMethod($numberFilter, 'getCondition');
+
+        $this->assertEquals('Alias.column >= 1', $condition);
     }
 }

@@ -14,8 +14,8 @@ class TextFilter extends TyppedFilter
 
     protected $templatesTable = [
         self::CONTAINS    => 'LIKE \'%{{condition}}%\'',
-        self::EQUALS      => '= \'%{{condition}}%\'',
-        self::NOT_EQUALS  => '<> \'%{{condition}}%\'',
+        self::EQUALS      => '= \'{{condition}}\'',
+        self::NOT_EQUALS  => '<> \'{{condition}}\'',
         self::STARTS_WITH => 'LIKE \'{{condition}}%\'',
         self::ENDS_WITH   => 'LIKE \'%{{condition}}\''
     ];

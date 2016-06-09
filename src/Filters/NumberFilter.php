@@ -7,16 +7,22 @@ use DomainException;
 class NumberFilter extends TyppedFilter
 {
     const EQUALS = 1;
-    const LESS_THAN = 2;
-    const GREATER_THAN = 3;
+    const NOT_EQUAL = 2;
+    const LESS_THAN = 3;
+    const LESS_THAN_OR_EQUAL = 4;
+    const GREATER_THAN = 5;
+    const GREATER_THAN_OR_EQUAL = 6;
 
     protected $signsTable = [
-        self::EQUALS => '=',
-        self::LESS_THAN => '<=',
-        self::GREATER_THAN => '>='
+        self::EQUALS                => '=',
+        self::NOT_EQUAL             => '<>',
+        self::LESS_THAN             => '<',
+        self::LESS_THAN_OR_EQUAL    => '<=',
+        self::GREATER_THAN          => '>',
+        self::GREATER_THAN_OR_EQUAL => '>=',
     ];
 
-    protected $allowedTypes = [1, 2, 3];
+    protected $allowedTypes = [1, 2, 3, 4, 5, 6];
 
     protected function validateType()
     {
