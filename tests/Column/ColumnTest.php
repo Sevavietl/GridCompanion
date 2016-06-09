@@ -3,8 +3,7 @@
 use Sevavietl\GridCompanion\Column\Column;
 
 use Sevavietl\GridCompanion\Column\Properties\Field;
-use Sevavietl\GridCompanion\Column\Properties\HeaderName;
-use Sevavietl\GridCompanion\Column\Properties\Width;
+use Sevavietl\GridCompanion\Column\Properties\SimpleProperty;
 
 use Sevavietl\GridCompanion\Column\PropertiesStorage;
 
@@ -51,7 +50,7 @@ class ColumnTest extends TestCase
     public function testAddProperty()
     {
         // Arrange
-        $property = new HeaderName('Header Name');
+        $property = new SimpleProperty('headerName', 'Header Name');
 
         // Act
         $this->column->addProperty($property);
@@ -64,8 +63,8 @@ class ColumnTest extends TestCase
     public function testToArray()
     {
         // Arrange
-        $property1 = new HeaderName('Header Name');
-        $property2 = new Width(120);
+        $property1 = new SimpleProperty('headerName', 'Header Name');
+        $property2 = new SimpleProperty('width', 120);
         $expectedArray = [
             'field'      => 'alias_column',
             'headerName' => 'Header Name',

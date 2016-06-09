@@ -10,6 +10,8 @@ use DomainException;
  */
 class Field extends Property
 {
+    protected $value;
+
     /**
      * Table alias for join.
      * @var string
@@ -36,6 +38,11 @@ class Field extends Property
         $this->validate();
 
         $this->setValue([$alias, $column]);
+    }
+
+    public function getValue()
+    {
+        return $this->value;
     }
 
     /**
@@ -99,10 +106,9 @@ class Field extends Property
 
         if (
             strpos($this->alias, ' ') !== false
-            || strpos($this->alias, $this->glue) !== false
         ) {
             throw new DomainException(
-                "Alias must not contain spaces or " . $this->glue . "."
+                "Alias must not contain spaces."
             );
         }
     }
@@ -122,10 +128,9 @@ class Field extends Property
 
         if (
             strpos($this->column, ' ') !== false
-            // || strpos($this->column, $this->glue) !== false
         ) {
             throw new DomainException(
-                "Column not contain spaces or " . $this->glue . "."
+                "Column must not contain spaces."
             );
         }
     }

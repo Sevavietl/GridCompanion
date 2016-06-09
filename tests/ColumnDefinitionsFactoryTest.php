@@ -9,9 +9,8 @@ use Sevavietl\GridCompanion\Contracts\ColumnDefinition;
 use Sevavietl\GridCompanion\Column\Properties\Property;
 
 use Sevavietl\GridCompanion\Column\Properties\Field;
-use Sevavietl\GridCompanion\Column\Properties\HeaderName;
-use Sevavietl\GridCompanion\Column\Properties\Width;
 use Sevavietl\GridCompanion\Column\Properties\Filter;
+use Sevavietl\GridCompanion\Column\Properties\SimpleProperty;
 
 class ColumnDefinitionsFactoryTest extends TestCase
 {
@@ -62,8 +61,8 @@ class ColumnDefinitionsFactoryTest extends TestCase
     public function testBuildProperty()
     {
         // Arrange
-        $expectedProperty1 = new HeaderName('Header Name');
-        $expectedProperty2 = new Width(120);
+        $expectedProperty1 = new SimpleProperty('headerName', 'Header Name');
+        $expectedProperty2 = new SimpleProperty('width', 120);
         $expectedProperty3 = new Filter('text');
         $expectedProperty4 = new Filter('text', []);
         $expectedProperty5 = new Filter('text', [
@@ -136,19 +135,6 @@ class ColumnDefinitionsFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException \DomainException
-     */
-    public function testThrowsExceptionOnNotExistingProperty()
-    {
-        // Act
-        $actualProperty1 = $this->invokeMethod(
-            $this->builder,
-            'buildProperty',
-            ['Foo', 'Bar']
-        );
-    }
-
     public function testBuildColumn()
     {
         // Arrange
@@ -160,8 +146,8 @@ class ColumnDefinitionsFactoryTest extends TestCase
             'width'      => 120
         ];
 
-        $property1 = new HeaderName('Column');
-        $property2 = new Width(120);
+        $property1 = new SimpleProperty('headerName', 'Column');
+        $property2 = new SimpleProperty('width', 120);
         $property3 = new Field(
             $columnDefinition['alias'],
             $columnDefinition['field']
@@ -214,8 +200,8 @@ class ColumnDefinitionsFactoryTest extends TestCase
         $this->setAttribute($this->builder, 'model', 'Model');
         $this->setAttribute($this->builder, 'alias', 'Alias');
 
-        $property1 = new HeaderName('Column');
-        $property2 = new Width(120);
+        $property1 = new SimpleProperty('headerName', 'Column');
+        $property2 = new SimpleProperty('width', 120);
         $property3 = new Field(
             $columnDefinition['alias'],
             $columnDefinition['field']
@@ -557,17 +543,21 @@ class ColumnDefinitionsFactoryTest extends TestCase
             ]
         ];
 
-        $columnGroupProperty1 = new HeaderName(
+        $columnGroupProperty1 = new SimpleProperty(
+            'headerName',
             $columnGroupDefinition['headerName']
         );
-        $columnGroupProperty2 = new Width(
+        $columnGroupProperty2 = new SimpleProperty(
+            'width',
             $columnGroupDefinition['width']
         );
 
-        $columnProperty1 = new HeaderName(
+        $columnProperty1 = new SimpleProperty(
+            'headerName',
             $columnGroupDefinition['children'][0]['headerName']
         );
-        $columnProperty2 = new Width(
+        $columnProperty2 = new SimpleProperty(
+            'width',
             $columnGroupDefinition['children'][0]['width']
         );
         $columnProperty3 = new Field(
@@ -627,24 +617,30 @@ class ColumnDefinitionsFactoryTest extends TestCase
             ]
         ];
 
-        $columnGroupProperty1 = new HeaderName(
+        $columnGroupProperty1 = new SimpleProperty(
+            'headerName',
             $columnGroupDefinition['headerName']
         );
-        $columnGroupProperty2 = new Width(
+        $columnGroupProperty2 = new SimpleProperty(
+            'width',
             $columnGroupDefinition['width']
         );
 
-        $columnProperty11 = new HeaderName(
+        $columnProperty11 = new SimpleProperty(
+            'headerName',
             $columnGroupDefinition['children'][0]['headerName']
         );
-        $columnProperty12 = new HeaderName(
+        $columnProperty12 = new SimpleProperty(
+            'headerName',
             $columnGroupDefinition['children'][1]['headerName']
         );
 
-        $columnProperty21 = new Width(
+        $columnProperty21 = new SimpleProperty(
+            'width',
             $columnGroupDefinition['children'][0]['width']
         );
-        $columnProperty22 = new Width(
+        $columnProperty22 = new SimpleProperty(
+            'width',
             $columnGroupDefinition['children'][1]['width']
         );
 
@@ -720,18 +716,22 @@ class ColumnDefinitionsFactoryTest extends TestCase
             ]
         ];
 
-        $columnGroupProperty1 = new HeaderName(
+        $columnGroupProperty1 = new SimpleProperty(
+            'headerName',
             $columnGroupDefinition['headerName']
         );
-        $columnGroupProperty2 = new Width(
+        $columnGroupProperty2 = new SimpleProperty(
+            'width',
             $columnGroupDefinition['width']
         );
 
-        $columnProperty1 = new HeaderName(
+        $columnProperty1 = new SimpleProperty(
+            'headerName',
             $columnGroupDefinition['children'][0]['headerName']
         );
 
-        $columnProperty2 = new Width(
+        $columnProperty2 = new SimpleProperty(
+            'width',
             $columnGroupDefinition['children'][0]['width']
         );
 
@@ -801,18 +801,22 @@ class ColumnDefinitionsFactoryTest extends TestCase
             ]
         ];
 
-        $columnGroupProperty1 = new HeaderName(
+        $columnGroupProperty1 = new SimpleProperty(
+            'headerName',
             $columnGroupDefinition['headerName']
         );
-        $columnGroupProperty2 = new Width(
+        $columnGroupProperty2 = new SimpleProperty(
+            'width',
             $columnGroupDefinition['width']
         );
 
-        $columnProperty1 = new HeaderName(
+        $columnProperty1 = new SimpleProperty(
+            'headerName',
             $columnGroupDefinition['children'][0]['headerName']
         );
 
-        $columnProperty2 = new Width(
+        $columnProperty2 = new SimpleProperty(
+            'width',
             $columnGroupDefinition['children'][0]['width']
         );
 
@@ -882,26 +886,32 @@ class ColumnDefinitionsFactoryTest extends TestCase
         ];
 
         // Main column group properties.
-        $columnGroupProperty1 = new HeaderName(
+        $columnGroupProperty1 = new SimpleProperty(
+            'headerName',
             $columnGroupDefinition['headerName']
         );
-        $columnGroupProperty2 = new Width(
+        $columnGroupProperty2 = new SimpleProperty(
+            'width',
             $columnGroupDefinition['width']
         );
 
         // Nested column group properties.
-        $nestedColumnGroupProperty1 = new HeaderName(
+        $nestedColumnGroupProperty1 = new SimpleProperty(
+            'headerName',
             $columnGroupDefinition['children'][0]['headerName']
         );
-        $nestedColumnGroupProperty2 = new Width(
+        $nestedColumnGroupProperty2 = new SimpleProperty(
+            'width',
             $columnGroupDefinition['children'][0]['width']
         );
 
         // Properties for the column inside the nested column group.
-        $columnProperty1 = new HeaderName(
+        $columnProperty1 = new SimpleProperty(
+            'headerName',
             $columnGroupDefinition['children'][0]['children'][0]['headerName']
         );
-        $columnProperty2 = new Width(
+        $columnProperty2 = new SimpleProperty(
+            'width',
             $columnGroupDefinition['children'][0]['children'][0]['width']
         );
         $columnProperty3 = new Field(
@@ -973,26 +983,32 @@ class ColumnDefinitionsFactoryTest extends TestCase
         ];
 
         // Main column group properties.
-        $columnGroupProperty1 = new HeaderName(
+        $columnGroupProperty1 = new SimpleProperty(
+            'headerName',
             $columnGroupDefinition['headerName']
         );
-        $columnGroupProperty2 = new Width(
+        $columnGroupProperty2 = new SimpleProperty(
+            'width',
             $columnGroupDefinition['width']
         );
 
         // Nested column group properties.
-        $nestedColumnGroupProperty1 = new HeaderName(
+        $nestedColumnGroupProperty1 = new SimpleProperty(
+            'headerName',
             $columnGroupDefinition['children'][0]['headerName']
         );
-        $nestedColumnGroupProperty2 = new Width(
+        $nestedColumnGroupProperty2 = new SimpleProperty(
+            'width',
             $columnGroupDefinition['children'][0]['width']
         );
 
         // Properties for the column inside the nested column group.
-        $columnProperty12 = new HeaderName(
+        $columnProperty12 = new SimpleProperty(
+            'headerName',
             $columnGroupDefinition['children'][0]['children'][0]['headerName']
         );
-        $columnProperty22 = new Width(
+        $columnProperty22 = new SimpleProperty(
+            'width',
             $columnGroupDefinition['children'][0]['children'][0]['width']
         );
         $columnProperty32 = new Field(
@@ -1014,10 +1030,12 @@ class ColumnDefinitionsFactoryTest extends TestCase
         $nestedColumnGroup->addColumn($expectedColumn2);
 
         // Properties for the column inside the main column group.
-        $columnProperty11 = new HeaderName(
+        $columnProperty11 = new SimpleProperty(
+            'headerName',
             $columnGroupDefinition['children'][1]['headerName']
         );
-        $columnProperty21 = new Width(
+        $columnProperty21 = new SimpleProperty(
+            'width',
             $columnGroupDefinition['children'][1]['width']
         );
         $columnProperty31 = new Field(
@@ -1152,8 +1170,14 @@ class ColumnDefinitionsFactoryTest extends TestCase
             ]
         ];
 
-        $columnProperty11 = new HeaderName($schema[0]['headerName']);
-        $columnProperty21 = new Width($schema[0]['width']);
+        $columnProperty11 = new SimpleProperty(
+            'headerName',
+            $schema[0]['headerName']
+        );
+        $columnProperty21 = new SimpleProperty(
+            'width',
+            $schema[0]['width']
+        );
         $column1 = (new Column(
                 $schema['model'],
                 $schema['alias'],
@@ -1162,8 +1186,14 @@ class ColumnDefinitionsFactoryTest extends TestCase
             ->addProperty($columnProperty11)
             ->addProperty($columnProperty21);
 
-        $columnProperty12 = new HeaderName($schema[1]['headerName']);
-        $columnProperty22 = new Width($schema[1]['width']);
+        $columnProperty12 = new SimpleProperty(
+            'headerName',
+            $schema[1]['headerName']
+        );
+        $columnProperty22 = new SimpleProperty(
+            'width',
+            $schema[1]['width']
+        );
         $column2 = (new Column(
                 $schema['model'],
                 $schema['alias'],
@@ -1194,7 +1224,7 @@ class ColumnDefinitionsFactoryTest extends TestCase
 
         // Assert
         $this->assertInstanceOf(
-            'Sevavietl\GridCompanion\\ColumnDefinitions',
+            'Sevavietl\GridCompanion\ColumnDefinitions',
             $columnDefinitions
         );
 

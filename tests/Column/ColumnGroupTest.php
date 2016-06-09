@@ -4,8 +4,7 @@ use Sevavietl\GridCompanion\Column\ColumnGroup;
 use Sevavietl\GridCompanion\Column\Column;
 
 use Sevavietl\GridCompanion\Column\Properties\Field;
-use Sevavietl\GridCompanion\Column\Properties\HeaderName;
-use Sevavietl\GridCompanion\Column\Properties\Width;
+use Sevavietl\GridCompanion\Column\Properties\SimpleProperty;
 
 class ColumnGroupTest extends PHPUnit_Framework_TestCase
 {
@@ -39,8 +38,8 @@ class ColumnGroupTest extends PHPUnit_Framework_TestCase
         $columnName = 'column';
         $column = new Column($model, $alias, $columnName);
 
-        $property1 = new HeaderName('Column Group');
-        $property2 = new Width(120);
+        $property1 = new SimpleProperty('headerName', 'Column Group');
+        $property2 = new SimpleProperty('width', 120);
 
         $columnGroup = new ColumnGroup;
         $columnGroup

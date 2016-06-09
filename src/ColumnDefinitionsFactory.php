@@ -9,15 +9,14 @@ use Sevavietl\GridCompanion\Contracts\ColumnDefinition;
 use Sevavietl\GridCompanion\Column\Column;
 use Sevavietl\GridCompanion\Column\ColumnGroup;
 
-use Sevavietl\GridCompanion\Column\Properties\HeaderName;
-use Sevavietl\GridCompanion\Column\Properties\Width;
+use Sevavietl\GridCompanion\Column\Properties\SimpleProperty;
 use Sevavietl\GridCompanion\Column\Properties\Filter;
 
 use DomainException;
 
 class ColumnDefinitionsFactory
 {
-    protected $propertyNamespace = 'Sevavietl\GridCompanion\Column\Properties\\';
+    protected $propertyNamespace = 'Sevavietl\GridCompanion\Column\\Properties\\';
 
     protected $model;
     protected $alias;
@@ -29,6 +28,10 @@ class ColumnDefinitionsFactory
 
     protected $currentColumn = null;
     protected $currentHash = null;
+
+    protected $complexProperties = [
+        'field', 'filter'
+    ];
 
     public function setEnabledColumnIds(array $enabledColumnIds)
     {
@@ -104,15 +107,11 @@ class ColumnDefinitionsFactory
 
     protected function buildProperty($key, $value)
     {
+        if (!in_array($key, $this->complexProperties)) {
+            return new SimpleProperty($key, $value);
+        }
+
         switch ($key) {
-            case 'colId':
-            case 'headerName':
-            case 'width':
-            case 'cellStyle':
-            case 'cellRenderer':
-                $class = $this->propertyNamespace . ucfirst($key);
-                return new $class($value);
-                break;
             case 'filter':
                 if (!empty($this->currentColumn)) {
                     $hash = [

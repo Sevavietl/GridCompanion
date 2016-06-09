@@ -10,11 +10,6 @@ use DomainException;
 class Filter extends Property
 {
     /**
-     * @inheritdoc
-     */
-    protected $value = null;
-
-    /**
      * Filter type.
      * @var string
      */
@@ -82,10 +77,5 @@ class Filter extends Property
         }
 
         return ['filterParams' => $this->getParams()];
-    }
-
-    protected function validate()
-    {
-        
     }
 }

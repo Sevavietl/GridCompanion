@@ -7,6 +7,7 @@ use InvalidArgumentException;
 use DomainException;
 
 use Sevavietl\GridCompanion\Column\Properties\Property;
+use Sevavietl\GridCompanion\Column\Properties\SimpleProperty;
 
 class PropertiesStorage extends SplObjectStorage
 {
@@ -20,6 +21,14 @@ class PropertiesStorage extends SplObjectStorage
 
         foreach ($this as $addedProperty) {
             if (get_class($property) === get_class($addedProperty)) {
+                if ($property instanceof SimpleProperty) {
+                    if (key($property->toArray()) !== key($addedProperty->toArray())) {
+                        continue;
+                    }
+
+                    throw new DomainException('The property ' . key($property->toArray()) . ' already in the storage');
+                }
+
                 throw new DomainException('The property of the same class ' . get_class($property) . ' already in the storage');
             }
         }
@@ -37,7 +46,9 @@ class PropertiesStorage extends SplObjectStorage
 
         foreach ($this as $addedProperty) {
             if (get_class($property) === get_class($addedProperty)) {
-                return $property->toArray() === $addedProperty->toArray();
+                if ($property->toArray() === $addedProperty->toArray()) {
+                    return true;
+                }
             }
         }
 

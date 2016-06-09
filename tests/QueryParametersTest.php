@@ -35,7 +35,7 @@ class QueryParametersTest extends TestCase
     protected function buildColumn($model, $alias, $columnName, $columnAlias)
     {
         $column = $this->getMockBuilder(
-            'Sevavietl\GridCompanion\\Column\\Column'
+            'Sevavietl\GridCompanion\Column\\Column'
         )
         ->setMethods([
             'getModel',
@@ -75,7 +75,7 @@ class QueryParametersTest extends TestCase
         }
 
         $columnGroup = $this->getMockBuilder(
-            'Sevavietl\GridCompanion\\Column\\ColumnGroup'
+            'Sevavietl\GridCompanion\Column\\ColumnGroup'
         )
         ->setMethods(['getColumns', 'isColumnGroup'])
         ->disableOriginalConstructor()
@@ -146,7 +146,7 @@ class QueryParametersTest extends TestCase
         ];
 
         $queryParameters = $this->getMockBuilder(
-                'Sevavietl\GridCompanion\\QueryParameters'
+                'Sevavietl\GridCompanion\QueryParameters'
             )
             ->disableOriginalConstructor()
             ->getMock();
@@ -180,7 +180,7 @@ class QueryParametersTest extends TestCase
         $column2 = $this->buildColumn('Model2', 'Alias2', 'column2', 'alias2_column2');
 
         $queryParameters = $this->getMockBuilder(
-                'Sevavietl\GridCompanion\\QueryParameters'
+                'Sevavietl\GridCompanion\QueryParameters'
             )
             ->disableOriginalConstructor()
             ->getMock();
@@ -210,7 +210,7 @@ class QueryParametersTest extends TestCase
         $column1 = $this->buildColumn('Model1', 'Alias1', 'column1', 'alias1_column1');
 
         $queryParameters = $this->getMockBuilder(
-                'Sevavietl\GridCompanion\\QueryParameters'
+                'Sevavietl\GridCompanion\QueryParameters'
             )
             ->disableOriginalConstructor()
             ->getMock();
@@ -249,7 +249,7 @@ class QueryParametersTest extends TestCase
         ];
 
         $queryParameters = $this->getMockBuilder(
-                'Sevavietl\GridCompanion\\QueryParameters'
+                'Sevavietl\GridCompanion\QueryParameters'
             )
             ->disableOriginalConstructor()
             ->getMock();
@@ -306,7 +306,7 @@ class QueryParametersTest extends TestCase
         ];
 
         $queryParameters = $this->getMockBuilder(
-                'Sevavietl\GridCompanion\\QueryParameters'
+                'Sevavietl\GridCompanion\QueryParameters'
             )
             ->disableOriginalConstructor()
             ->getMock();

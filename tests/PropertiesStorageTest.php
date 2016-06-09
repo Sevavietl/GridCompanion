@@ -2,9 +2,8 @@
 
 use Sevavietl\GridCompanion\Column\PropertiesStorage;
 
-use Sevavietl\GridCompanion\Column\Properties\HeaderName;
+use Sevavietl\GridCompanion\Column\Properties\SimpleProperty;
 use Sevavietl\GridCompanion\Column\Properties\Field;
-use Sevavietl\GridCompanion\Column\Properties\Width;
 use Sevavietl\GridCompanion\Column\Properties\Filter;
 
 class PropertiesStorageTest extends PHPUnit_Framework_TestCase
@@ -39,7 +38,7 @@ class PropertiesStorageTest extends PHPUnit_Framework_TestCase
     public function testCannotPassDataAlongProperty()
     {
         // Arrange
-        $property = new HeaderName('First header name');
+        $property = new SimpleProperty('headerName', 'First header name');
 
         // Act
         $this->storage->attach($property, 'some data');
@@ -51,7 +50,7 @@ class PropertiesStorageTest extends PHPUnit_Framework_TestCase
     public function testCannotAttachTwoSameProperties()
     {
         // Arrange
-        $headerName = new HeaderName('Header name');
+        $headerName = new SimpleProperty('headerName', 'Header name');
 
         // Act
         $this->storage->attach($headerName);
@@ -64,8 +63,8 @@ class PropertiesStorageTest extends PHPUnit_Framework_TestCase
     public function testCannotAttachTwoPropertiesOfTheSameClass()
     {
         // Arrange
-        $headerName1 = new HeaderName('First header name');
-        $headerName2 = new HeaderName('Second header name');
+        $headerName1 = new SimpleProperty('headerName', 'First header name');
+        $headerName2 = new SimpleProperty('headerName', 'Second header name');
         $field = new Field('Alias', 'column');
 
         // Act
@@ -77,8 +76,8 @@ class PropertiesStorageTest extends PHPUnit_Framework_TestCase
     public function testContainsForTwoSameProperiesThatAreDifferentObjects()
     {
         // Arrange
-        $headerName1 = new HeaderName('Header name');
-        $headerName2 = new HeaderName('Header name');
+        $headerName1 = new SimpleProperty('headerName', 'Header name');
+        $headerName2 = new SimpleProperty('headerName', 'Header name');
 
         // Act
         $this->storage->attach($headerName1);

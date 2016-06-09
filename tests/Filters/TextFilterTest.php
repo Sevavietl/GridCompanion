@@ -22,7 +22,7 @@ class TextFilterTest extends TestCase
         ];
 
         $textFilter = $this->getMockBuilder(
-            'Sevavietl\GridCompanion\\Filters\\TextFilter'
+            'Sevavietl\GridCompanion\Filters\\TextFilter'
         )
         ->disableOriginalConstructor()
         ->getMock();
