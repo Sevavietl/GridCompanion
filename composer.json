@@ -1,9 +1,7 @@
 {
     "name": "sevavietl/grid-companion",
     "description": "Backend grid component for ag-grid.",
-    "require-dev": {
-        "phpunit/phpunit": "4.*.*"
-    },
+    "version": "0.0.1",
     "license": "MIT",
     "authors": [
         {
@@ -12,6 +10,9 @@
         }
     ],
     "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "4.*.*"
+    },
     "autoload": {
         "files": ["src/functions.php"],
         "psr-4": {
