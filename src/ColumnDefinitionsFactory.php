@@ -105,41 +105,6 @@ class ColumnDefinitionsFactory
         );
     }
 
-    protected function buildProperty($key, $value)
-    {
-        if (!in_array($key, $this->complexProperties)) {
-            return new SimpleProperty($key, $value);
-        }
-
-        switch ($key) {
-            case 'filter':
-                if (!empty($this->currentColumn)) {
-                    $hash = [
-                        'model' => $this->currentColumn->getModel(),
-                        'alias' => $this->currentColumn->getAlias(),
-                        'column' => $this->currentColumn->getColumnName()
-                    ];
-
-                    if (!empty($value['type'])) {
-                        $hash['filterType'] = $value['type'];
-                    }
-
-                    $this->currentHash = [
-                        $this->currentColumn->getColumnAlias() => $hash
-                    ];
-                }
-
-                $type = isset($value['type']) ? $value['type'] : null;
-                $params = isset($value['params']) ? $value['params'] : null;
-                return is_null($params) ? (new Filter($type)) : (new Filter($type, $params));
-                break;
-
-            default:
-                throw new DomainException("There is no property $key.");
-                break;
-        }
-    }
-
     protected function buildColumn(array $columnDefinition)
     {
         $this->validateColumnDefinition($columnDefinition);
@@ -166,10 +131,18 @@ class ColumnDefinitionsFactory
         unset($columnDefinition['field']);
 
         $this->currentColumn = new Column($model, $alias, $field);
+        $this->hashCurrentColumn();
 
         $this->addProperties($this->currentColumn, $columnDefinition);
 
         return $this->currentColumn;
+    }
+
+    protected function validateColumnDefinition(array $columnDefinition)
+    {
+        if (!isset($columnDefinition['field'])) {
+            throw new DomainException("The 'field' definition is necessary.");
+        }
     }
 
     protected function isColumnEnabled(array $columnDefinition)
@@ -202,6 +175,17 @@ class ColumnDefinitionsFactory
         return in_array($columnDefinition['id'], $this->disabledColumnIds);
     }
 
+    protected function hashCurrentColumn()
+    {
+        if (!empty($this->currentColumn)) {
+            $this->currentHash[$this->currentColumn->getColumnAlias()] = [
+                'model' => $this->currentColumn->getModel(),
+                'alias' => $this->currentColumn->getAlias(),
+                'column' => $this->currentColumn->getColumnName()
+            ];
+        }
+    }
+
     protected function buildColumnGroup(array $columnGroupDefinition)
     {
         $this->validateColumnGroupDefinition($columnGroupDefinition);
@@ -226,13 +210,6 @@ class ColumnDefinitionsFactory
         return $columnGroup;
     }
 
-    protected function validateColumnDefinition(array $columnDefinition)
-    {
-        if (!isset($columnDefinition['field'])) {
-            throw new DomainException("The 'field' definition is necessary.");
-        }
-    }
-
     protected function validateColumnGroupDefinition(array $columnGroupDefinition)
     {
         if (!isset($columnGroupDefinition['children'])) {
@@ -244,6 +221,33 @@ class ColumnDefinitionsFactory
     {
         foreach ($properties as $key => $value) {
             $columnDefinition->addProperty($this->buildProperty($key, $value));
+        }
+    }
+
+    protected function buildProperty($key, $value)
+    {
+        if (!in_array($key, $this->complexProperties)) {
+            return new SimpleProperty($key, $value);
+        }
+
+        switch ($key) {
+            case 'filter':
+                if (
+                    !empty($this->currentColumn)
+                    && !empty($this->currentHash[$this->currentColumn->getColumnAlias()])
+                    && !empty($value['type'])
+                ) {
+                    $this->currentHash[$this->currentColumn->getColumnAlias()]['filterType'] = $value['type'];
+                }
+
+                $type = isset($value['type']) ? $value['type'] : null;
+                $params = isset($value['params']) ? $value['params'] : null;
+                return is_null($params) ? (new Filter($type)) : (new Filter($type, $params));
+                break;
+
+            default:
+                throw new DomainException("There is no property $key.");
+                break;
         }
     }
 

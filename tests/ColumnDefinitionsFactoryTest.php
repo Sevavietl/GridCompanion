@@ -526,6 +526,50 @@ class ColumnDefinitionsFactoryTest extends TestCase
         );
     }
 
+    public function testHashCurrentColumn()
+    {
+        // Arrange
+        $column = $this->getMockBuilder(
+            'Sevavietl\GridCompanion\Column\Column'
+        )
+        ->disableOriginalConstructor()
+        ->setMethods(['getColumnAlias', 'getModel', 'getAlias', 'getColumnName'])
+        ->getMock();
+
+        $column->expects($this->once())
+            ->method('getColumnAlias')
+            ->willReturn('alias_column');
+        $column->expects($this->once())
+            ->method('getModel')
+            ->willReturn('Model');
+        $column->expects($this->once())
+            ->method('getAlias')
+            ->willReturn('Alias');
+        $column->expects($this->once())
+            ->method('getColumnName')
+            ->willReturn('column');
+
+        $this->setAttribute($this->builder, 'currentColumn', $column);
+
+        $expectedHash = [
+            'alias_column' => [
+                'model'  => 'Model',
+                'alias'  => 'Alias',
+                'column' => 'column'
+            ]
+        ];
+
+        // Act
+        $this->invokeMethod($this->builder, 'hashCurrentColumn');
+
+        // Assert
+        $this->assertAttributeEquals(
+            $expectedHash,
+            'currentHash',
+            $this->builder
+        );
+    }
+
     public function testBuildColumnGroupOneColumn()
     {
         // Arrange
