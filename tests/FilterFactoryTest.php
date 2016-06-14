@@ -22,7 +22,7 @@ class FilterFactoryTest extends TestCase
         $columnFilter = ['orders_days' => ['type' => 1, 'filter' => 1]];
 
         $hash = [
-            'filterType' => 'number'
+            'orders_days' => ['filterType' => 'number']
         ];
         $columnId = key($columnFilter);
         $params = $columnFilter[$columnId];
@@ -43,7 +43,7 @@ class FilterFactoryTest extends TestCase
         $columnFilter = ['orders_days' => ['type' => 1, 'filter' => 'abc']];
 
         $hash = [
-            'filterType' => 'text'
+            'orders_days' => ['filterType' => 'text']
         ];
         $columnId = key($columnFilter);
         $params = $columnFilter[$columnId];
@@ -64,7 +64,7 @@ class FilterFactoryTest extends TestCase
         $columnFilter = ['statuses_status' => ['Cancelled', 'Confirmed', 'Delivered']];
 
         $hash = [
-            'filterType' => 'set'
+            'statuses_status' => ['filterType' => 'set']
         ];
         $columnId = key($columnFilter);
         $params = $columnFilter[$columnId];
@@ -85,7 +85,7 @@ class FilterFactoryTest extends TestCase
         $columnFilter = ['statuses_status' => ['', 'Cancelled', 'Confirmed', 'Delivered']];
 
         $hash = [
-            'filterType' => 'SetEmptyFilter'
+            'statuses_status' => ['filterType' => 'SetEmptyFilter']
         ];
 
         $columnId = key($columnFilter);
@@ -107,7 +107,7 @@ class FilterFactoryTest extends TestCase
         $columnFilter = ['orders_service_date' => ['from' => '2016-06-02', 'to' => '2016-06-02']];
 
         $hash = [
-            'filterType' => 'DateRangeFilter'
+            'orders_service_date' => ['filterType' => 'DateRangeFilter']
         ];
         $columnId = key($columnFilter);
         $params = $columnFilter[$columnId];
@@ -128,7 +128,7 @@ class FilterFactoryTest extends TestCase
         $columnFilter = ['orders_created' => ['type' => 1, 'filter' => '2016-06-02 05:46']];
 
         $hash = [
-            'filterType' => 'DateTimeFilter'
+            'orders_created' => ['filterType' => 'DateTimeFilter']
         ];
         $columnId = key($columnFilter);
         $params = $columnFilter[$columnId];
@@ -143,6 +143,29 @@ class FilterFactoryTest extends TestCase
         );
     }
 
+    public function testMultipleColumnsFilter()
+    {
+        // Arrange
+        $columnFilter = ['["orders_days", "days"]' => ['type' => 1, 'filter' => 1]];
+
+        $hash = [
+            'orders_days' => ['filterType' => 'number'],
+            'days'        => ['filterType' => 'number']
+        ];
+
+        $columnId = key($columnFilter);
+        $params = $columnFilter[$columnId];
+
+        // Act
+        $filter = $this->filterFactory->build($hash, $columnId, $params);
+
+        // Assert
+        $this->assertInstanceOf(
+            'Sevavietl\GridCompanion\Filters\MultipleColumnsFilter',
+            $filter
+        );
+    }
+
     /**
      * @expectedException \DomainException
      */
@@ -152,7 +175,7 @@ class FilterFactoryTest extends TestCase
         $columnFilter = ['orders_days' => ['type' => 1, 'filter' => 'abc']];
 
         $hash = [
-            'filterType' => 'foo'
+            'orders_days' => ['filterType' => 'foo']
         ];
         $columnId = key($columnFilter);
         $params = $columnFilter[$columnId];

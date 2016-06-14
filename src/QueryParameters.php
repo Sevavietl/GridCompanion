@@ -9,6 +9,8 @@ use Sevavietl\GridCompanion\Column\Column;
 
 use Sevavietl\GridCompanion\FilterFactory;
 
+use Sevavietl\GridCompanion\Filters\MultipleColumnsFilter;
+
 use SplQueue;
 
 class QueryParameters
@@ -157,17 +159,19 @@ class QueryParameters
             $columnIds,
             array_map(
                 function ($columnId, $params) use ($hash) {
-                    if (!empty($hash[$columnId]['filterType'])) {
-                        $params = $this->filterFactory->build(
-                            $hash[$columnId],
-                            $columnId,
-                            $params
-                        )->toArray();
+                    $filter = $this->filterFactory->build(
+                        $hash,
+                        $columnId,
+                        $params
+                    );
+
+                    if ($filter instanceof MultipleColumnsFilter) {
+                        return ['params' => $filter->toArray()];
                     }
 
                     return array_merge(
                         $hash[$columnId],
-                        ['params' => $params]
+                        ['params' => $filter->toArray()]
                     );
                 },
                 $columnIds,
