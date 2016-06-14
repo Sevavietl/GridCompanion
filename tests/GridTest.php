@@ -398,6 +398,32 @@ class GridTest extends TestCase
         );
     }
 
+    public function testSetBaseFilterModel()
+    {
+        // Arrange
+        $baseFilterModel = [
+            '["column1", "column2"]' => [
+                'type' => 1,
+                'filter' => '12345',
+                'filterType' => 'number'
+            ]
+        ];
+
+        $grid = $this->getMockBuilder($this->gridClass)
+             ->disableOriginalConstructor()
+             ->getMockForAbstractClass();
+
+        // Act
+        $grid->setBaseFilterModel($baseFilterModel);
+
+        // Assert
+        $this->assertAttributeEquals(
+            $baseFilterModel,
+            'baseFilterModel',
+            $grid
+        );
+    }
+
     public function testSetRowsInterval()
     {
         // Arrange
@@ -445,6 +471,42 @@ class GridTest extends TestCase
              ->getMockForAbstractClass();
 
         $this->setAttribute($grid, 'queryParameters', $queryParameters);
+
+        // Act
+        $grid->setFilterModel($filterModel);
+    }
+
+    public function testSetFilterModelWithBaseFilterModel()
+    {
+        // Arrange
+        $baseFilterModel = [
+            '["column1", "column2"]' => [
+                'type' => 1,
+                'filter' => '12345',
+                'filterType' => 'number'
+            ]
+        ];
+
+        $filterModel = [
+            'statuses_status' => ['Cancelled', 'Confirmed', 'Lost']
+        ];
+
+        $queryParameters = $this->getMockBuilder(
+         'Sevavietl\GridCompanion\\QueryParameters'
+        )
+        ->setMethods(['setFilters'])
+        ->disableOriginalConstructor()
+        ->getMock();
+        $queryParameters->expects($this->once())
+        ->method('setFilters')
+        ->with(array_merge($baseFilterModel, $filterModel));
+
+        $grid = $this->getMockBuilder($this->gridClass)
+             ->disableOriginalConstructor()
+             ->getMockForAbstractClass();
+
+        $this->setAttribute($grid, 'queryParameters', $queryParameters);
+        $this->setAttribute($grid, 'baseFilterModel', $baseFilterModel);
 
         // Act
         $grid->setFilterModel($filterModel);

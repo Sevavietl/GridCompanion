@@ -13,6 +13,7 @@ use Sevavietl\GridCompanion\ColumnDefinitionsFactory;
 abstract class Grid
 {
     protected $schema;
+    protected $baseFilterModel = [];
 
     protected $columnDefinitionsFactory;
     protected $columnDefinitions;
@@ -29,6 +30,8 @@ abstract class Grid
         $this->schema = $this->getSchema();
 
         $this->validateSchema();
+
+        $this->baseFilterModel =
 
         $this->setColumnDefinitionsFactory();
         $this->setDataProvider($dataProvider);
@@ -78,6 +81,13 @@ abstract class Grid
     public function setDataProvider(DataProviderInterface $dataProvider)
     {
         $this->dataProvider = $dataProvider;
+
+        return $this;
+    }
+
+    public function setBaseFilterModel(array $baseFilterModel)
+    {
+        $this->baseFilterModel = $baseFilterModel;
 
         return $this;
     }
@@ -140,7 +150,9 @@ abstract class Grid
 
     public function setFilterModel(array $filterModel)
     {
-        $this->queryParameters->setFilters($filterModel);
+        $this->queryParameters->setFilters(
+            array_merge($this->baseFilterModel, $filterModel)
+        );
 
         return $this;
     }
