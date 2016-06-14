@@ -76,11 +76,17 @@ class QueryParameters
 
     protected function addSelect(Column $column)
     {
-        $this->select[] = [
+        $select = [
             'alias' => $column->getAlias(),
             'column' => $column->getColumnName(),
             'columnAlias' => $column->getColumnAlias()
         ];
+
+        if (in_array($select, $this->select)) {
+            return;
+        }
+
+        $this->select[] = $select;
     }
 
     public function setRowsInterval(RowsInterval $rowsInterval)
