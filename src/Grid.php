@@ -31,8 +31,6 @@ abstract class Grid
 
         $this->validateSchema();
 
-        $this->baseFilterModel =
-
         $this->setColumnDefinitionsFactory();
         $this->setDataProvider($dataProvider);
     }
