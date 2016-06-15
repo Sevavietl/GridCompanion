@@ -70,10 +70,16 @@ class QueryParameters
 
     protected function addJoin(Column $column)
     {
-        $this->join[] = [
+        $join = [
             'model' => $column->getModel(),
             'alias' => $column->getAlias()
         ];
+
+        if (in_array($join, $this->join)) {
+            return;
+        }
+
+        $this->join[] = $join;
     }
 
     protected function addSelect(Column $column)

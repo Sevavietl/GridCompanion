@@ -196,6 +196,41 @@ class QueryParametersTest extends TestCase
         $this->assertAttributeEquals($join, 'join', $queryParameters);
     }
 
+    public function testAddJoinDuplicatedModelAndAlias()
+    {
+        // Arrange
+        $join = [
+            [
+                'model' => 'Model1',
+                'alias' => 'Alias1'
+            ]
+        ];
+
+        $column1 = $this->buildColumn('Model1', 'Alias1', 'column1', 'alias1_column1');
+        $column2 = $this->buildColumn('Model1', 'Alias1', 'column2', 'alias1_column2');
+
+        $queryParameters = $this->getMockBuilder(
+                'Sevavietl\GridCompanion\QueryParameters'
+            )
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        // Act
+        $this->invokeMethod(
+            $queryParameters,
+            'addJoin',
+            [$column1]
+        );
+        $this->invokeMethod(
+            $queryParameters,
+            'addJoin',
+            [$column2]
+        );
+
+        // Assert
+        $this->assertAttributeEquals($join, 'join', $queryParameters);
+    }
+
     public function testAddSelect()
     {
         // Arrange
