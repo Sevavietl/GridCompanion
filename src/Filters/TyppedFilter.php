@@ -22,12 +22,12 @@ abstract class TyppedFilter extends Filter
     {
         $value = $this->columnFilter[$this->columnId];
 
-        if (empty($value['type'])) {
+        if (!isset($value['type'])) {
             throw new InvalidArgumentException('Filter type not specified.');
         }
         $this->type = $value['type'];
 
-        if (empty($value['filter'])) {
+        if (!isset($value['filter'])) {
             throw new InvalidArgumentException('Filter not specified.');
         }
         $this->filter = $value['filter'];
