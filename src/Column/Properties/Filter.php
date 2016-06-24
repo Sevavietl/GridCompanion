@@ -76,6 +76,15 @@ class Filter extends Property
             return [];
         }
 
+        $this->tryToResolveCallableValuesFromParams();
+
         return ['filterParams' => $this->getParams()];
+    }
+
+    protected function tryToResolveCallableValuesFromParams()
+    {
+        if (isset($this->params['values']) && is_callable($this->params['values'])) {
+            $this->params['values'] = $this->params['values']();
+        }
     }
 }
