@@ -123,7 +123,7 @@ class FilterTest extends TestCase
         // Arrange
         $type   = 'set';
         $params = [
-            'values'        => [],
+            'values'        => ['1', '2', '3'],
             'newRowsAction' => 'keep',
             'apply'         => true,
         ];
@@ -131,7 +131,7 @@ class FilterTest extends TestCase
         $expectedFilterArray = [
             'filter'       => 'set',
             'filterParams' => [
-                'values'        => [],
+                'values'        => ['1', '2', '3'],
                 'newRowsAction' => 'keep',
                 'apply'         => true,
             ]

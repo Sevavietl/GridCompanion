@@ -4,6 +4,8 @@ namespace Sevavietl\GridCompanion\Column\Properties;
 
 use DomainException;
 
+use Closure;
+
 /**
  * The name to render in the column header
  */
@@ -83,7 +85,11 @@ class Filter extends Property
 
     protected function tryToResolveCallableValuesFromParams()
     {
-        if (isset($this->params['values']) && is_callable($this->params['values'])) {
+        if (
+            isset($this->params['values'])
+            && is_object($this->params['values'])
+            && $this->params['values'] instanceof Closure
+        ) {
             $this->params['values'] = $this->params['values']();
         }
     }
