@@ -11,7 +11,7 @@ class NumberFilterTest extends TestCase
 
     protected function setUp()
     {
-        $this->columnFilter = ['orders_days' => ['type' => 1, 'filter' => 1]];
+        $this->columnFilter = ['orders_days' => ['type' => 'equals', 'filter' => 1]];
 
         $this->hash = [
             'model' => 'Model',
@@ -20,13 +20,7 @@ class NumberFilterTest extends TestCase
             'filterType' => 'NumberFilter'
         ];
 
-        $numberFilter = $this->getMockBuilder(
-            'Sevavietl\GridCompanion\\Filters\\NumberFilter'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $this->numberFilter = $numberFilter;
+        $this->numberFilter = new NumberFilter($this->columnFilter, $this->hash);
     }
 
     protected function tearDown()
@@ -39,7 +33,7 @@ class NumberFilterTest extends TestCase
         $this->setAttribute(
             $this->numberFilter,
             'type',
-            1
+            'equals'
         );
 
         $this->invokeMethod($this->numberFilter, 'validateType');
@@ -53,7 +47,7 @@ class NumberFilterTest extends TestCase
         $this->setAttribute(
             $this->numberFilter,
             'type',
-            10
+            'fooBarBaz'
         );
 
         $this->invokeMethod($this->numberFilter, 'validateType');
@@ -97,7 +91,7 @@ class NumberFilterTest extends TestCase
             $numberFilter
         );
         $this->assertAttributeEquals(
-            1,
+            'equals',
             'type',
             $numberFilter
         );
@@ -119,7 +113,7 @@ class NumberFilterTest extends TestCase
 
     public function testGetConditionNotEqual()
     {
-        $this->columnFilter[key($this->columnFilter)]['type'] = 2;
+        $this->columnFilter[key($this->columnFilter)]['type'] = 'notEqual';
 
         $numberFilter = new NumberFilter($this->columnFilter, $this->hash);
 
@@ -130,7 +124,7 @@ class NumberFilterTest extends TestCase
 
     public function testGetConditionLessThan()
     {
-        $this->columnFilter[key($this->columnFilter)]['type'] = 3;
+        $this->columnFilter[key($this->columnFilter)]['type'] = 'lessThan';
 
         $numberFilter = new NumberFilter($this->columnFilter, $this->hash);
 
@@ -141,7 +135,7 @@ class NumberFilterTest extends TestCase
 
     public function testGetConditionLessThanOrEqual()
     {
-        $this->columnFilter[key($this->columnFilter)]['type'] = 4;
+        $this->columnFilter[key($this->columnFilter)]['type'] = 'lessThanOrEqual';
 
         $numberFilter = new NumberFilter($this->columnFilter, $this->hash);
 
@@ -152,7 +146,7 @@ class NumberFilterTest extends TestCase
 
     public function testGetConditionGreaterThan()
     {
-        $this->columnFilter[key($this->columnFilter)]['type'] = 5;
+        $this->columnFilter[key($this->columnFilter)]['type'] = 'greaterThan';
 
         $numberFilter = new NumberFilter($this->columnFilter, $this->hash);
 
@@ -163,7 +157,7 @@ class NumberFilterTest extends TestCase
 
     public function testGetConditionGreaterThanOrEqual()
     {
-        $this->columnFilter[key($this->columnFilter)]['type'] = 6;
+        $this->columnFilter[key($this->columnFilter)]['type'] = 'greaterThanOrEqual';
 
         $numberFilter = new NumberFilter($this->columnFilter, $this->hash);
 

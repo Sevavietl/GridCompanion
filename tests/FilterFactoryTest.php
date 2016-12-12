@@ -19,7 +19,7 @@ class FilterFactoryTest extends TestCase
     public function testBuildNumberFilter()
     {
         // Arrange
-        $columnFilter = ['orders_days' => ['type' => 1, 'filter' => 1]];
+        $columnFilter = ['orders_days' => ['type' => 'equals', 'filter' => 1]];
 
         $hash = [
             'orders_days' => ['filterType' => 'number']
@@ -40,7 +40,7 @@ class FilterFactoryTest extends TestCase
     public function testBuildTextFilter()
     {
         // Arrange
-        $columnFilter = ['orders_days' => ['type' => 1, 'filter' => 'abc']];
+        $columnFilter = ['orders_days' => ['type' => 'contains', 'filter' => 'abc']];
 
         $hash = [
             'orders_days' => ['filterType' => 'text']
@@ -146,7 +146,7 @@ class FilterFactoryTest extends TestCase
     public function testMultipleColumnsFilter()
     {
         // Arrange
-        $columnFilter = ['["orders_days", "days"]' => ['type' => 1, 'filter' => 1]];
+        $columnFilter = ['["orders_days", "days"]' => ['type' => 'equals', 'filter' => 1]];
 
         $hash = [
             'orders_days' => ['filterType' => 'number'],
@@ -172,7 +172,7 @@ class FilterFactoryTest extends TestCase
     public function testBuildFilterOfWrongType()
     {
         // Arrange
-        $columnFilter = ['orders_days' => ['type' => 1, 'filter' => 'abc']];
+        $columnFilter = ['orders_days' => ['type' => 'equals', 'filter' => 'abc']];
 
         $hash = [
             'orders_days' => ['filterType' => 'foo']

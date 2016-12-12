@@ -96,7 +96,7 @@ class MultipleColumnsFilterTest extends TestCase
         // Arrange
         $columnIds = ['column1', 'column2'];
         $filter = [
-            'type' => 1,
+            'type' => 'equals',
             'filter' => '12345',
             'filterType' => 'number'
         ];
@@ -146,7 +146,7 @@ class MultipleColumnsFilterTest extends TestCase
         // Arrange
         $columnIds = ['column1', 'column2'];
         $filter = [
-            'type' => 1,
+            'type' => 'equals',
             'filter' => '12345',
             'filterType' => 'number'
         ];
@@ -180,7 +180,7 @@ class MultipleColumnsFilterTest extends TestCase
         // Arrange
         $columnIds = ['column1', 'column2'];
         $filter = [
-            'type' => 1,
+            'type' => 'equals',
             'filter' => '12345',
             'filterType' => 'number'
         ];

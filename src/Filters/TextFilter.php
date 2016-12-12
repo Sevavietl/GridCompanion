@@ -6,11 +6,11 @@ use DomainException;
 
 class TextFilter extends TyppedFilter
 {
-    const CONTAINS    = 1;
-    const EQUALS      = 2;
-    const NOT_EQUALS  = 3;
-    const STARTS_WITH = 4;
-    const ENDS_WITH   = 5;
+    const CONTAINS    = 'contains';
+    const EQUALS      = 'equals';
+    const NOT_EQUALS  = 'notEquals';
+    const STARTS_WITH = 'startsWith';
+    const ENDS_WITH   = 'endsWith';
 
     protected $templatesTable = [
         self::CONTAINS    => 'LIKE \'%{{condition}}%\'',
@@ -20,11 +20,9 @@ class TextFilter extends TyppedFilter
         self::ENDS_WITH   => 'LIKE \'%{{condition}}\''
     ];
 
-    protected $allowedTypes = [1, 2, 3, 4, 5];
-
     protected function validateType()
     {
-        if (!in_array($this->type, $this->allowedTypes)) {
+        if (!isset($this->templatesTable[$this->type])) {
             throw new DomainException('Type ' . $this->type . ' is not allowed for filtering.');
         }
     }

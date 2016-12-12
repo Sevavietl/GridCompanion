@@ -6,12 +6,12 @@ use DomainException;
 
 class NumberFilter extends TyppedFilter
 {
-    const EQUALS = 1;
-    const NOT_EQUAL = 2;
-    const LESS_THAN = 3;
-    const LESS_THAN_OR_EQUAL = 4;
-    const GREATER_THAN = 5;
-    const GREATER_THAN_OR_EQUAL = 6;
+    const EQUALS = 'equals';
+    const NOT_EQUAL = 'notEqual';
+    const LESS_THAN = 'lessThan';
+    const LESS_THAN_OR_EQUAL = 'lessThanOrEqual';
+    const GREATER_THAN = 'greaterThan';
+    const GREATER_THAN_OR_EQUAL = 'greaterThanOrEqual';
 
     protected $signsTable = [
         self::EQUALS                => '=',
@@ -22,11 +22,9 @@ class NumberFilter extends TyppedFilter
         self::GREATER_THAN_OR_EQUAL => '>=',
     ];
 
-    protected $allowedTypes = [1, 2, 3, 4, 5, 6];
-
     protected function validateType()
     {
-        if (!in_array($this->type, $this->allowedTypes)) {
+        if (!isset($this->signsTable[$this->type])) {
             throw new DomainException('Type ' . $this->type . ' is not allowed for filtering.');
         }
     }

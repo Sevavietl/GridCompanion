@@ -12,7 +12,7 @@ class TextFilterTest extends TestCase
 
     protected function setUp()
     {
-        $this->columnFilter = ['orders_days' => ['type' => 1, 'filter' => 'abc']];
+        $this->columnFilter = ['orders_days' => ['type' => 'contains', 'filter' => 'abc']];
 
         $this->hash = [
             'model' => 'Model',
@@ -21,13 +21,10 @@ class TextFilterTest extends TestCase
             'filterType' => 'TextFilter'
         ];
 
-        $textFilter = $this->getMockBuilder(
-            'Sevavietl\GridCompanion\Filters\\TextFilter'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $this->textFilter = $textFilter;
+        $this->textFilter = new TextFilter(
+            $this->columnFilter,
+            $this->hash
+        );
     }
 
     protected function tearDown()
@@ -37,12 +34,6 @@ class TextFilterTest extends TestCase
 
     public function testValidateType()
     {
-        $this->setAttribute(
-            $this->textFilter,
-            'type',
-            1
-        );
-
         $this->invokeMethod($this->textFilter, 'validateType');
     }
 
@@ -54,7 +45,7 @@ class TextFilterTest extends TestCase
         $this->setAttribute(
             $this->textFilter,
             'type',
-            7
+            'fooBarBaz'
         );
 
         $this->invokeMethod($this->textFilter, 'validateType');
@@ -84,7 +75,7 @@ class TextFilterTest extends TestCase
             $textFilter
         );
         $this->assertAttributeEquals(
-            1,
+            'contains',
             'type',
             $textFilter
         );
@@ -97,16 +88,14 @@ class TextFilterTest extends TestCase
 
     public function testGetConditionContains()
     {
-        $textFilter = new TextFilter($this->columnFilter, $this->hash);
-
-        $condition = $this->invokeMethod($textFilter, 'getCondition');
+        $condition = $this->invokeMethod($this->textFilter, 'getCondition');
 
         $this->assertEquals('Alias.column LIKE \'%abc%\'', $condition);
     }
 
     public function testGetConditionEquals()
     {
-        $this->columnFilter[key($this->columnFilter)]['type'] = 2;
+        $this->columnFilter[key($this->columnFilter)]['type'] = 'equals';
 
         $textFilter = new TextFilter($this->columnFilter, $this->hash);
 
@@ -117,7 +106,7 @@ class TextFilterTest extends TestCase
 
     public function testGetConditionNotEquals()
     {
-        $this->columnFilter[key($this->columnFilter)]['type'] = 3;
+        $this->columnFilter[key($this->columnFilter)]['type'] = 'notEquals';
 
         $textFilter = new TextFilter($this->columnFilter, $this->hash);
 
@@ -128,7 +117,7 @@ class TextFilterTest extends TestCase
 
     public function testGetConditionStartsWith()
     {
-        $this->columnFilter[key($this->columnFilter)]['type'] = 4;
+        $this->columnFilter[key($this->columnFilter)]['type'] = 'startsWith';
 
         $textFilter = new TextFilter($this->columnFilter, $this->hash);
 
@@ -139,7 +128,7 @@ class TextFilterTest extends TestCase
 
     public function testGetConditionEndsWith()
     {
-        $this->columnFilter[key($this->columnFilter)]['type'] = 5;
+        $this->columnFilter[key($this->columnFilter)]['type'] = 'endsWith';
 
         $textFilter = new TextFilter($this->columnFilter, $this->hash);
 
