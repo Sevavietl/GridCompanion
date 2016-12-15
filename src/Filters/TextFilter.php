@@ -13,11 +13,11 @@ class TextFilter extends TyppedFilter
     const ENDS_WITH   = 'endsWith';
 
     protected $templatesTable = [
-        self::CONTAINS    => 'LIKE \'%{{condition}}%\'',
-        self::EQUALS      => '= \'{{condition}}\'',
-        self::NOT_EQUALS  => '<> \'{{condition}}\'',
-        self::STARTS_WITH => 'LIKE \'{{condition}}%\'',
-        self::ENDS_WITH   => 'LIKE \'%{{condition}}\''
+        self::CONTAINS    => '{{column}} LIKE \'%{{condition}}%\'',
+        self::EQUALS      => '{{column}} = \'{{condition}}\'',
+        self::NOT_EQUALS  => '{{column}} <> \'{{condition}}\'',
+        self::STARTS_WITH => '{{column}} LIKE \'{{condition}}%\'',
+        self::ENDS_WITH   => '{{column}} LIKE \'%{{condition}}\''
     ];
 
     protected function validateType()
@@ -30,14 +30,5 @@ class TextFilter extends TyppedFilter
     protected function validateFilter()
     {
 
-    }
-
-    protected function getCondition()
-    {
-        return  $this->getColumnForQuery() . ' ' . str_replace(
-            '{{condition}}',
-            addslashes($this->filter),
-            $this->templatesTable[$this->type]
-        );
     }
 }

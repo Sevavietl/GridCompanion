@@ -13,13 +13,13 @@ class NumberFilter extends TyppedFilter
     const GREATER_THAN = 'greaterThan';
     const GREATER_THAN_OR_EQUAL = 'greaterThanOrEqual';
 
-    protected $signsTable = [
-        self::EQUALS                => '=',
-        self::NOT_EQUAL             => '<>',
-        self::LESS_THAN             => '<',
-        self::LESS_THAN_OR_EQUAL    => '<=',
-        self::GREATER_THAN          => '>',
-        self::GREATER_THAN_OR_EQUAL => '>=',
+    protected $templatesTable = [
+        self::EQUALS                => '{{column}} = {{condition}}',
+        self::NOT_EQUAL             => '{{column}} <> {{condition}}',
+        self::LESS_THAN             => '{{column}} < {{condition}}',
+        self::LESS_THAN_OR_EQUAL    => '{{column}} <= {{condition}}',
+        self::GREATER_THAN          => '{{column}} > {{condition}}',
+        self::GREATER_THAN_OR_EQUAL => '{{column}} >= {{condition}}',
     ];
 
     protected function validateType()

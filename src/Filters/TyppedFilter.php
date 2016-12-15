@@ -43,9 +43,27 @@ abstract class TyppedFilter extends Filter
             'columnId' => $this->columnId,
             'type' => $this->type,
             'filter' => $this->filter,
+
+            'column' => $this->getColumnForQuery(),
+            'conditionTemplate' => $this->getConditionTemplate(),
             'condition' => $this->getCondition()
         ];
     }
 
-    abstract protected function getCondition();
+    protected function getCondition()
+    {
+        return  str_replace(
+            ['{{column}}', '{{condition}}'],
+            [
+                $this->getColumnForQuery(),
+                addslashes($this->filter)
+            ],
+            $this->getConditionTemplate()
+        );
+    }
+
+    protected function getConditionTemplate()
+    {
+        return $this->templatesTable[$this->type];
+    }
 }

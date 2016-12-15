@@ -6,21 +6,19 @@ use DomainException;
 
 class DateTimeFilter extends TyppedFilter
 {
-    const EQUALS = 1;
-    const BEFORE = 2;
-    const AFTER  = 3;
+    const EQUALS = 'equals';
+    const BEFORE = 'before';
+    const AFTER  = 'after';
 
     protected $templatesTable = [
-        self::EQUALS => 'LIKE \'{{condition}}%\'',
-        self::BEFORE => '<= \'{{condition}}:00\'',
-        self::AFTER  => '>= \'{{condition}}:00\''
+        self::EQUALS => '{{column}} LIKE \'{{condition}}%\'',
+        self::BEFORE => '{{column}} <= \'{{condition}}:00\'',
+        self::AFTER  => '{{column}} >= \'{{condition}}:00\''
     ];
-
-    protected $allowedTypes = [1, 2, 3];
 
     protected function validateType()
     {
-        if (!in_array($this->type, $this->allowedTypes)) {
+        if (!isset($this->templatesTable[$this->type])) {
             throw new DomainException('Type ' . $this->type . ' is not allowed for filtering.');
         }
     }
@@ -32,14 +30,5 @@ class DateTimeFilter extends TyppedFilter
         if (!preg_match($datePattern, $this->filter)) {
             throw new DomainException('Incorrect date format.');
         }
-    }
-
-    protected function getCondition()
-    {
-        return $this->getColumnForQuery() . ' ' . str_replace(
-            '{{condition}}',
-            addslashes($this->filter),
-            $this->templatesTable[$this->type]
-        );
     }
 }
