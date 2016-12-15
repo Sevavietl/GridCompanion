@@ -28,27 +28,17 @@ class FilterFactory
         switch ($type) {
             case 'number':
                 return new NumberFilter([$columnId => $params], $hash);
-                break;
             case 'text':
                 return new TextFilter([$columnId => $params], $hash);
-                break;
             case 'set':
-            case 'SetFilter':
                 return new SetFilter([$columnId => $params], $hash);
-                break;
-            case 'SetEmptyFilter':
-                return new SetEmptyFilter([$columnId => $params], $hash);
-                break;
-            case 'DateRangeFilter':
-                return new DateRangeFilter([$columnId => $params], $hash);
-                break;
-            case 'DateTimeFilter':
-                return new DateTimeFilter([$columnId => $params], $hash);
-                break;
 
             default:
-                throw new DomainException("There is no filter of type '$type'.");
-                break;
+                if (class_exists($type)) {
+                    return new $type([$columnId => $params], $hash);
+                }
         }
+
+        throw new DomainException("There is no filter of type '$type'.");
     }
 }
