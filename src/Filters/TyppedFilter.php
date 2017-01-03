@@ -3,6 +3,7 @@
 namespace Sevavietl\GridCompanion\Filters;
 
 use InvalidArgumentException;
+use DomainException;
 
 abstract class TyppedFilter extends Filter
 {
@@ -33,7 +34,12 @@ abstract class TyppedFilter extends Filter
         $this->filter = $value['filter'];
     }
 
-    abstract protected function validateType();
+    protected function validateType()
+    {
+        if (!isset($this->templatesTable[$this->type])) {
+            throw new DomainException('Type ' . $this->type . ' is not allowed for filtering.');
+        }
+    }
 
     abstract protected function validateFilter();
 

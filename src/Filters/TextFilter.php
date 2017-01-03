@@ -20,13 +20,6 @@ class TextFilter extends TyppedFilter
         self::ENDS_WITH   => '{{column}} LIKE \'%{{condition}}\''
     ];
 
-    protected function validateType()
-    {
-        if (!isset($this->templatesTable[$this->type])) {
-            throw new DomainException('Type ' . $this->type . ' is not allowed for filtering.');
-        }
-    }
-
     protected function validateFilter()
     {
 

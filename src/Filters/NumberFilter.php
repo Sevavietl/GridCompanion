@@ -22,22 +22,10 @@ class NumberFilter extends TyppedFilter
         self::GREATER_THAN_OR_EQUAL => '{{column}} >= {{condition}}',
     ];
 
-    protected function validateType()
-    {
-        if (!isset($this->signsTable[$this->type])) {
-            throw new DomainException('Type ' . $this->type . ' is not allowed for filtering.');
-        }
-    }
-
     protected function validateFilter()
     {
         if (!is_numeric($this->filter)) {
             throw new DomainException('Filter value ' . $this->filter . ' is not allowed. Filter value must be numeric.');
         }
-    }
-
-    protected function getCondition()
-    {
-        return $this->getColumnForQuery() . ' ' . $this->signsTable[$this->type] . ' ' . $this->filter;
     }
 }
