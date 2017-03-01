@@ -167,7 +167,7 @@ abstract class Grid
         $this->columnDefinitionsFactory
             ->setEnabledColumnIds($enabledColumnIds);
 
-        unset($this->columnDefinitions);
+        $this->columnDefinitions = null;
 
         return $this;
     }
@@ -177,7 +177,7 @@ abstract class Grid
         $this->columnDefinitionsFactory
             ->setDisabledColumnIds($disabledColumnIds);
 
-        unset($this->columnDefinitions);
+        $this->columnDefinitions = null;
 
         return $this;
     }

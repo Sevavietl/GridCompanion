@@ -10,6 +10,7 @@ use Sevavietl\GridCompanion\Column\Properties\Property;
 
 use Sevavietl\GridCompanion\Column\Properties\Field;
 use Sevavietl\GridCompanion\Column\Properties\Filter;
+use Sevavietl\GridCompanion\Column\Properties\FilterFramework;
 use Sevavietl\GridCompanion\Column\Properties\SimpleProperty;
 
 class ColumnDefinitionsFactoryTest extends TestCase
@@ -69,6 +70,10 @@ class ColumnDefinitionsFactoryTest extends TestCase
             'newRowsAction' => 'keep',
             'apply'         => true,
         ]);
+        $expectedProperty6 = new FilterFramework('text', [
+            'newRowsAction' => 'keep',
+            'apply'         => true,
+        ]);
 
         // Act
         $actualProperty1 = $this->invokeMethod(
@@ -111,6 +116,20 @@ class ColumnDefinitionsFactoryTest extends TestCase
                 ]
             ]
         );
+        $actualProperty6 = $this->invokeMethod(
+            $this->builder,
+            'buildProperty',
+            [
+                'filterFramework',
+                [
+                    'type' => 'text',
+                    'params' => [
+                        'newRowsAction' => 'keep',
+                        'apply'         => true,
+                    ]
+                ]
+            ]
+        );
 
         // Assert
         $this->assertEquals(
@@ -132,6 +151,10 @@ class ColumnDefinitionsFactoryTest extends TestCase
         $this->assertEquals(
             $expectedProperty5,
             $actualProperty5
+        );
+        $this->assertEquals(
+            $expectedProperty6,
+            $actualProperty6
         );
     }
 

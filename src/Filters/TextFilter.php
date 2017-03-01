@@ -24,4 +24,9 @@ class TextFilter extends TyppedFilter
     {
 
     }
+
+    protected function getTemplatesTable()
+    {
+        return $this->templatesTable;
+    }
 }

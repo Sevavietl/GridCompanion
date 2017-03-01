@@ -12,7 +12,7 @@ class TyppedFilterTest extends TestCase
 
     protected function setUp()
     {
-        $this->columnFilter = ['orders_days' => ['type' => 1, 'filter' => 1]];
+        $this->columnFilter = ['orders_days' => ['type' => 'equals', 'filter' => 1]];
 
         $this->hash = [
             'model' => 'Model',
@@ -49,7 +49,7 @@ class TyppedFilterTest extends TestCase
 
         $this->invokeMethod($this->typpedFilter, 'setTypeAndFilter');
 
-        $this->assertAttributeEquals(1, 'type', $this->typpedFilter);
+        $this->assertAttributeEquals('equals', 'type', $this->typpedFilter);
         $this->assertAttributeEquals(1, 'filter', $this->typpedFilter);
     }
 
@@ -123,7 +123,7 @@ class TyppedFilterTest extends TestCase
             $typpedFilter
         );
         $this->assertAttributeEquals(
-            1,
+            'equals',
             'type',
             $typpedFilter
         );
@@ -138,27 +138,32 @@ class TyppedFilterTest extends TestCase
     {
         // Arrange
         $typpedFilter = $this->getMockBuilder(
-            'Sevavietl\GridCompanion\\Filters\\TyppedFilter'
+            'Sevavietl\\GridCompanion\\Filters\\TyppedFilter'
         )
-        ->setMethods(['validateType', 'validateFilter', 'getCondition'])
-        ->disableOriginalConstructor()
-        ->getMockForAbstractClass();
+            ->setMethods(['validateType', 'validateFilter', 'getCondition', 'getTemplatesTable'])
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $typpedFilter->expects($this->once())
-        ->method('validateType');
+            ->method('validateType');
         $typpedFilter->expects($this->once())
-        ->method('validateFilter');
+            ->method('validateFilter');
         $typpedFilter->expects($this->once())
-        ->method('getCondition')
-        ->willReturn('Alias.column = 1');
+            ->method('getCondition')
+            ->willReturn('Alias.column = 1');
+        $typpedFilter->expects($this->once())
+            ->method('getTemplatesTable')
+            ->willReturn(['equals' => '{{column}} = \'{{condition}}\'']);
 
         $typpedFilter->__construct($this->columnFilter, $this->hash);
 
         $expectedArray = [
             'columnId' => 'orders_days',
-            'type' => 1,
+            'type' => 'equals',
             'filter' => 1,
-            'condition' => 'Alias.column = 1'
+            'condition' => 'Alias.column = 1',
+            'column' => 'Alias.column',
+            'conditionTemplate' => "{{column}} = '{{condition}}'"
         ];
 
         // Act

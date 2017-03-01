@@ -16,7 +16,7 @@ use DomainException;
 
 class ColumnDefinitionsFactory
 {
-    protected $propertyNamespace = 'Sevavietl\GridCompanion\Column\\Properties\\';
+    protected $propertyNamespace = 'Sevavietl\GridCompanion\Column\Properties\\';
 
     protected $model;
     protected $alias;
@@ -30,7 +30,7 @@ class ColumnDefinitionsFactory
     protected $currentHash = null;
 
     protected $complexProperties = [
-        'field', 'filter'
+        'field', 'filter', 'filterFramework'
     ];
 
     public function setEnabledColumnIds(array $enabledColumnIds)
@@ -84,9 +84,9 @@ class ColumnDefinitionsFactory
 
     protected function clearDown()
     {
-        unset($this->model);
-        unset($this->alias);
-        unset($this->schema);
+        $this->model = null;
+        $this->alias = null;
+        $this->schema = null;
     }
 
     protected function separateColumnDefinitionsSchema()
@@ -232,6 +232,7 @@ class ColumnDefinitionsFactory
 
         switch ($key) {
             case 'filter':
+            case 'filterFramework':
                 if (
                     !empty($this->currentColumn)
                     && !empty($this->currentHash[$this->currentColumn->getColumnAlias()])
@@ -242,12 +243,12 @@ class ColumnDefinitionsFactory
 
                 $type = isset($value['type']) ? $value['type'] : null;
                 $params = isset($value['params']) ? $value['params'] : null;
-                return is_null($params) ? (new Filter($type)) : (new Filter($type, $params));
-                break;
+
+                $filter = $this->propertyNamespace . ucfirst($key);
+                return is_null($params) ? (new $filter($type)) : (new $filter($type, $params));
 
             default:
                 throw new DomainException("There is no property $key.");
-                break;
         }
     }
 

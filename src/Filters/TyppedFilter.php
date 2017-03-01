@@ -36,7 +36,7 @@ abstract class TyppedFilter extends Filter
 
     protected function validateType()
     {
-        if (!isset($this->templatesTable[$this->type])) {
+        if (!isset($this->getTemplatesTable()[$this->type])) {
             throw new DomainException('Type ' . $this->type . ' is not allowed for filtering.');
         }
     }
@@ -70,6 +70,8 @@ abstract class TyppedFilter extends Filter
 
     protected function getConditionTemplate()
     {
-        return $this->templatesTable[$this->type];
+        return $this->getTemplatesTable()[$this->type];
     }
+
+    abstract protected function getTemplatesTable();
 }

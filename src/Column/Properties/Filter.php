@@ -65,7 +65,7 @@ class Filter extends Property
      */
     protected function typeToArray()
     {
-        return ['filter' => basename(str_replace('\\', '/', $this->getType()))];
+        return [$this->getName() => basename(str_replace('\\', '/', $this->getType()))];
     }
 
     /**
@@ -92,5 +92,10 @@ class Filter extends Property
         ) {
             $this->params['values'] = $this->params['values']();
         }
+    }
+
+    protected function getName()
+    {
+        return 'filter';
     }
 }

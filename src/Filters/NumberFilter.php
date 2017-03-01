@@ -28,4 +28,9 @@ class NumberFilter extends TyppedFilter
             throw new DomainException('Filter value ' . $this->filter . ' is not allowed. Filter value must be numeric.');
         }
     }
+
+    protected function getTemplatesTable()
+    {
+        return $this->templatesTable;
+    }
 }

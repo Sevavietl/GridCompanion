@@ -11,7 +11,7 @@ class DateTimeFilterTest extends TestCase
 
     protected function setUp()
     {
-        $this->columnFilter = ['orders_created' => ['type' => 1, 'filter' => '2016-06-02 05:46']];
+        $this->columnFilter = ['orders_created' => ['type' => 'equals','filter' => '2016-06-02 05:46']];
 
         $this->hash = [
             'model' => 'Model',
@@ -39,7 +39,7 @@ class DateTimeFilterTest extends TestCase
         $this->setAttribute(
             $this->dateTimeFilter,
             'type',
-            1
+            'equals'
         );
 
         $this->invokeMethod($this->dateTimeFilter, 'validateType');
@@ -97,7 +97,7 @@ class DateTimeFilterTest extends TestCase
             $dateTimeFilter
         );
         $this->assertAttributeEquals(
-            1,
+            'equals',
             'type',
             $dateTimeFilter
         );

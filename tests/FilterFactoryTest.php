@@ -85,7 +85,7 @@ class FilterFactoryTest extends TestCase
         $columnFilter = ['statuses_status' => ['', 'Cancelled', 'Confirmed', 'Delivered']];
 
         $hash = [
-            'statuses_status' => ['filterType' => 'SetEmptyFilter']
+            'statuses_status' => ['filterType' => 'Sevavietl\\GridCompanion\\Filters\\SetEmptyFilter']
         ];
 
         $columnId = key($columnFilter);
@@ -96,7 +96,7 @@ class FilterFactoryTest extends TestCase
 
         // Assert
         $this->assertInstanceOf(
-            'Sevavietl\GridCompanion\\Filters\\SetEmptyFilter',
+            'Sevavietl\\GridCompanion\\Filters\\SetEmptyFilter',
             $filter
         );
     }
@@ -107,7 +107,7 @@ class FilterFactoryTest extends TestCase
         $columnFilter = ['orders_service_date' => ['from' => '2016-06-02', 'to' => '2016-06-02']];
 
         $hash = [
-            'orders_service_date' => ['filterType' => 'DateRangeFilter']
+            'orders_service_date' => ['filterType' => 'Sevavietl\\GridCompanion\\Filters\\DateRangeFilter']
         ];
         $columnId = key($columnFilter);
         $params = $columnFilter[$columnId];
@@ -117,7 +117,7 @@ class FilterFactoryTest extends TestCase
 
         // Assert
         $this->assertInstanceOf(
-            'Sevavietl\GridCompanion\\Filters\\DateRangeFilter',
+            'Sevavietl\\GridCompanion\\Filters\\DateRangeFilter',
             $filter
         );
     }
@@ -125,10 +125,10 @@ class FilterFactoryTest extends TestCase
     public function testBuildDateTimeFilter()
     {
         // Arrange
-        $columnFilter = ['orders_created' => ['type' => 1, 'filter' => '2016-06-02 05:46']];
+        $columnFilter = ['orders_created' => ['type' => 'equals','filter' => '2016-06-02 05:46']];
 
         $hash = [
-            'orders_created' => ['filterType' => 'DateTimeFilter']
+            'orders_created' => ['filterType' => 'Sevavietl\\GridCompanion\\Filters\\DateTimeFilter']
         ];
         $columnId = key($columnFilter);
         $params = $columnFilter[$columnId];
@@ -138,7 +138,7 @@ class FilterFactoryTest extends TestCase
 
         // Assert
         $this->assertInstanceOf(
-            'Sevavietl\GridCompanion\\Filters\\DateTimeFilter',
+            'Sevavietl\\GridCompanion\\Filters\\DateTimeFilter',
             $filter
         );
     }
@@ -161,7 +161,7 @@ class FilterFactoryTest extends TestCase
 
         // Assert
         $this->assertInstanceOf(
-            'Sevavietl\GridCompanion\Filters\MultipleColumnsFilter',
+            'Sevavietl\\GridCompanion\\Filters\\MultipleColumnsFilter',
             $filter
         );
     }
